@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = "login_page"
+login_manager.login_view = "auth.login_page"
 
 for blueprint in blueprints:
     app.register_blueprint(blueprint, url_prefix="/{}".format(blueprint.name))
