@@ -15,3 +15,8 @@ FLASK_SECRET_KEY = os.getenv("SECRET_KEY")
 
 SQLALCHEMY_DATABASE_URI = f'mysql+{CONNECTOR}://{
     DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+
+ERROR_MESSAGES = {
+    'username_exists': 'Таке ім\'я користувача вже існує! Будь ласка, спробуйте інше ім\'я',
+    'email_exists': 'Така електронна пошта вже існує! Будь ласка, спробуйте іншу електронну пошту'
+}
