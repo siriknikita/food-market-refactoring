@@ -1,12 +1,21 @@
 from datetime import datetime
 
 from flask import flash, redirect, render_template, request, url_for
-from flask_login import current_user, login_required, login_user, logout_user
 
+from flask_login import current_user, login_required, login_user, logout_user
 from market import app, db
 from market.forms import AddingForm, LoginForm, RegisterForm, SubmitOrderForm
-from market.models import (BabyProducts, Beverages, Categories, FoodProducts,
-                           OrderDetails, Orders, PetProducts, Snacks, User)
+from market.models import (
+    BabyProducts,
+    Beverages,
+    Categories,
+    FoodProducts,
+    OrderDetails,
+    Orders,
+    PetProducts,
+    Snacks,
+    User,
+)
 
 
 @app.route('/')
@@ -88,10 +97,12 @@ def food_page():
     if request.method == "POST":
         # Get chosen item from user
         added_item = request.form.get('added_item')
-        added_item_object = FoodProducts.query.filter_by(name=added_item).first()
+        added_item_object = FoodProducts.query.filter_by(
+            name=added_item).first()
         if added_item_object:
             current_user_id = current_user.id
-            order_detail = OrderDetails.query.filter_by(order_id=current_user_id).first()
+            order_detail = OrderDetails.query.filter_by(
+                order_id=current_user_id).first()
             # Update an existing ID field
             order_detail.product_id = added_item_object.id
             # Update the price to pay
@@ -100,10 +111,12 @@ def food_page():
             order_detail.price += added_item_object.price
             db.session.commit()
 
-            flash(f"Товар '{added_item_object.name}' додано до кошика!", category='success')
+            flash(
+                f"Товар '{added_item_object.name}' додано до кошика!", category='success')
 
             if order_detail and order_detail.all_fields_have_values():
-                flash("Ваш кошик повний! Хочете зробити замовлення?", category='info')
+                flash("Ваш кошик повний! Хочете зробити замовлення?",
+                      category='info')
                 return redirect(url_for('cart_page'))
         return redirect(url_for('home_page'))
     elif request.method == "GET":
@@ -124,7 +137,8 @@ def beverages_page():
         added_item_object = Beverages.query.filter_by(name=added_item).first()
         if added_item_object:
             current_user_id = current_user.id
-            order_detail = OrderDetails.query.filter_by(order_id=current_user_id).first()
+            order_detail = OrderDetails.query.filter_by(
+                order_id=current_user_id).first()
             # Update an existing ID field
             order_detail.beverage_id = added_item_object.id
             # Update the price to pay
@@ -133,10 +147,12 @@ def beverages_page():
             order_detail.price += added_item_object.price
             db.session.commit()
 
-            flash(f"Товар '{added_item_object.name}' додано до кошика!", category='success')
+            flash(
+                f"Товар '{added_item_object.name}' додано до кошика!", category='success')
 
             if order_detail and order_detail.all_fields_have_values():
-                flash("Ваш кошик повний! Хочете зробити замовлення?", category='info')
+                flash("Ваш кошик повний! Хочете зробити замовлення?",
+                      category='info')
                 return redirect(url_for('cart_page'))
         return redirect(url_for('home_page'))
     elif request.method == "GET":
@@ -154,10 +170,12 @@ def baby_products_page():
     if request.method == "POST":
         # Get chosen item from user
         added_item = request.form.get('added_item')
-        added_item_object = BabyProducts.query.filter_by(name=added_item).first()
+        added_item_object = BabyProducts.query.filter_by(
+            name=added_item).first()
         if added_item_object:
             current_user_id = current_user.id
-            order_detail = OrderDetails.query.filter_by(order_id=current_user_id).first()
+            order_detail = OrderDetails.query.filter_by(
+                order_id=current_user_id).first()
             # Update an existing ID field
             order_detail.baby_food_id = added_item_object.id
             # Update the price to pay
@@ -166,10 +184,12 @@ def baby_products_page():
             order_detail.price += added_item_object.price
             db.session.commit()
 
-            flash(f"Товар '{added_item_object.name}' додано до кошика!", category='success')
+            flash(
+                f"Товар '{added_item_object.name}' додано до кошика!", category='success')
 
             if order_detail and order_detail.all_fields_have_values():
-                flash("Ваш кошик повний! Хочете зробити замовлення?", category='info')
+                flash("Ваш кошик повний! Хочете зробити замовлення?",
+                      category='info')
                 return redirect(url_for('cart_page'))
         return redirect(url_for('home_page'))
     elif request.method == "GET":
@@ -187,9 +207,11 @@ def pet_products_page():
     if request.method == "POST":
         # Get chosen item from user
         added_item = request.form.get('added_item')
-        added_item_object = PetProducts.query.filter_by(name=added_item).first()
+        added_item_object = PetProducts.query.filter_by(
+            name=added_item).first()
         if added_item_object:
-            order_detail = OrderDetails.query.filter_by(order_id=current_user.id).first()
+            order_detail = OrderDetails.query.filter_by(
+                order_id=current_user.id).first()
             # Update an existing ID field
             order_detail.pet_id = added_item_object.id
             # Update the price to pay
@@ -198,10 +220,12 @@ def pet_products_page():
             order_detail.price += added_item_object.price
             db.session.commit()
 
-            flash(f"Товар '{added_item_object.name}' додано до кошика!", category='success')
+            flash(
+                f"Товар '{added_item_object.name}' додано до кошика!", category='success')
 
             if order_detail and order_detail.all_fields_have_values():
-                flash("Ваш кошик повний! Хочете зробити замовлення?", category='info')
+                flash("Ваш кошик повний! Хочете зробити замовлення?",
+                      category='info')
                 return redirect(url_for('cart_page'))
         return redirect(url_for('home_page'))
     elif request.method == "GET":
@@ -221,7 +245,8 @@ def snacks_page():
         added_item = request.form.get('added_item')
         added_item_object = Snacks.query.filter_by(name=added_item).first()
         if added_item_object:
-            order_detail = OrderDetails.query.filter_by(order_id=current_user.id).first()
+            order_detail = OrderDetails.query.filter_by(
+                order_id=current_user.id).first()
             # Update an existing ID field
             order_detail.snack_id = added_item_object.id
             # Update the price to pay
@@ -230,10 +255,12 @@ def snacks_page():
             order_detail.price += added_item_object.price
             db.session.commit()
 
-            flash(f"Товар '{added_item_object.name}' додано до кошика!", category='success')
+            flash(
+                f"Товар '{added_item_object.name}' додано до кошика!", category='success')
 
             if order_detail and order_detail.all_fields_have_values():
-                flash("Ваш кошик повний! Хочете зробити замовлення?", category='info')
+                flash("Ваш кошик повний! Хочете зробити замовлення?",
+                      category='info')
                 return redirect(url_for('cart_page'))
         return redirect(url_for('home_page'))
     elif request.method == "GET":
@@ -248,18 +275,21 @@ def snacks_page():
 @login_required
 def cart_page():
     submission_form = SubmitOrderForm()
-    is_ordered = Orders.query.filter_by(user_id=current_user.id).first().order_date is not None
+    is_ordered = Orders.query.filter_by(
+        user_id=current_user.id).first().order_date is not None
     if request.method == "POST":
         # Update an existing order's date
         order = Orders.query.filter_by(user_id=current_user.id).first()
         order.order_date = datetime.now().strftime('%Y-%m-%d')
         db.session.commit()
 
-        flash("Замовлення успішно записано, та скоро буде виконано!", category='success')
+        flash("Замовлення успішно записано, та скоро буде виконано!",
+              category='success')
         return redirect(url_for('home_page'))
     elif request.method == "GET":
         # Get all IDs of chosen items
-        order_details = OrderDetails.query.filter_by(order_id=current_user.id).first()
+        order_details = OrderDetails.query.filter_by(
+            order_id=current_user.id).first()
         product_id = order_details.product_id
         beverage_id = order_details.beverage_id
         baby_food_id = order_details.baby_food_id
