@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from market import bcrypt, db, login_manager
+from market.extensions import db, bcrypt, login_manager
 
 
 @login_manager.user_loader

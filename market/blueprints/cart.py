@@ -2,7 +2,8 @@ from datetime import datetime
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from flask_login import login_required, current_user
-from market import db
+
+from market.extensions import db
 from market.forms import SubmitOrderForm
 from market.models import BabyProducts, Beverages, FoodProducts, OrderDetails, Orders, PetProducts, Snacks
 

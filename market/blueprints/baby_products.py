@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from flask_login import login_required, current_user
-from market import db
+from market.extensions import db
 from market.forms import AddingForm
 from market.models import BabyProducts, Categories, OrderDetails
 
