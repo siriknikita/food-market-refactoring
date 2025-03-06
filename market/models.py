@@ -1,5 +1,5 @@
-from market import db, login_manager, bcrypt
 from flask_login import UserMixin
+from market.extensions import db, bcrypt, login_manager
 
 
 @login_manager.user_loader
@@ -8,7 +8,8 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(20))
@@ -20,20 +21,23 @@ class User(db.Model, UserMixin):
 
     @password.setter
     def password(self, plain_text_password):
-        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+        self.password_hash = bcrypt.generate_password_hash(
+            plain_text_password).decode('utf-8')
 
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
 
 class Categories(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255))
 
 
 class FoodProducts(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     price = db.Column(db.DECIMAL(10, 2))
@@ -41,7 +45,8 @@ class FoodProducts(db.Model):
 
 
 class Beverages(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     price = db.Column(db.DECIMAL(10, 2))
@@ -49,7 +54,8 @@ class Beverages(db.Model):
 
 
 class BabyProducts(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     price = db.Column(db.DECIMAL(10, 2))
@@ -57,7 +63,8 @@ class BabyProducts(db.Model):
 
 
 class PetProducts(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     price = db.Column(db.DECIMAL(10, 2))
@@ -65,7 +72,8 @@ class PetProducts(db.Model):
 
 
 class Snacks(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     price = db.Column(db.DECIMAL(10, 2))
@@ -73,14 +81,16 @@ class Snacks(db.Model):
 
 
 class Orders(db.Model):
-    order_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    order_id = db.Column(db.Integer, primary_key=True,
+                         autoincrement=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_date = db.Column(db.Date)
     customer = db.relationship('User', backref='orders')
 
 
 class OrderDetails(db.Model):
-    order_detail_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    order_detail_id = db.Column(
+        db.Integer, primary_key=True, autoincrement=True, nullable=False)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
     product_id = db.Column(db.Integer, db.ForeignKey('food_products.id'))
     beverage_id = db.Column(db.Integer, db.ForeignKey('beverages.id'))
